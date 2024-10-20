@@ -158,35 +158,35 @@ class IncomingRequest extends Request
 	 * @param string|null                 $body
 	 * @param \CodeIgniter\HTTP\UserAgent $userAgent
 	 */
-public function __construct($config, URI $uri = null, UserAgent $userAgent, $body = 'php://input')
-{
-    // Get our body from php://input
-    if ($body === 'php://input')
-    {
-        $body = file_get_contents('php://input');
-    }
+	public function __construct($config, URI $uri = null, $body = 'php://input', UserAgent $userAgent)
+	{
+		// Get our body from php://input
+		if ($body === 'php://input')
+		{
+			$body = file_get_contents('php://input');
+		}
 
-    $this->body      = ! empty($body) ? $body : null;
-    $this->config    = $config;
-    $this->userAgent = $userAgent;
+		$this->body      = ! empty($body) ? $body : null;
+		$this->config    = $config;
+		$this->userAgent = $userAgent;
 
-    parent::__construct($config);
+		parent::__construct($config);
 
-    $this->populateHeaders();
+		$this->populateHeaders();
 
-    // Get our current URI.
-    // NOTE: This WILL NOT match the actual URL in the browser since for
-    // everything this cares about (and the router, etc) is the portion
-    // AFTER the script name. So, if hosted in a sub-folder this will
-    // appear different than actual URL. If you need that, use current_url().
-    $this->uri = $uri;
+		// Get our current URI.
+		// NOTE: This WILL NOT match the actual URL in the browser since for
+		// everything this cares about (and the router, etc) is the portion
+		// AFTER the script name. So, if hosted in a sub-folder this will
+		// appear different than actual URL. If you need that, use current_url().
+		$this->uri = $uri;
 
-    $this->detectURI($config->uriProtocol, $config->baseURL);
+		$this->detectURI($config->uriProtocol, $config->baseURL);
 
-    $this->validLocales = $config->supportedLocales;
+		$this->validLocales = $config->supportedLocales;
 
-    $this->detectLocale($config);
-}
+		$this->detectLocale($config);
+	}
 
 	//--------------------------------------------------------------------
 
